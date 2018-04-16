@@ -9,6 +9,7 @@ import router from './router'
 import Promise from 'promise-polyfill'
 import Vuex from 'vuex'
 import store from './store'
+import Bus from './store/bus'
 Vue.use(Vuex)
 
 FastClick.attach(document.body)
@@ -20,7 +21,6 @@ if (!window.Promise) {
 }
 
 Vue.use(VueRouter)
-
 router.beforeEach((to, from, next) => {
   if (to.meta.title) {
     document.title = to.meta.title
@@ -28,8 +28,7 @@ router.beforeEach((to, from, next) => {
   if (to.path === '/') {
     next()
   } else {
-    console.log(12345, store.state.user)
-    if (!store.state.user) {
+    if (localStorage.getItem('user') !== 'login') {
       next({path: '/'})
     } else {
       next()
@@ -42,6 +41,7 @@ new Vue({
   el: '#app',
   router,
   store,
+  Bus,
   template: '<App/>',
   components: { App }
 })

@@ -2,7 +2,7 @@
   <div>
     <h1></h1>
     <ul>
-      <li v-for="(item, key) of data" :key="key">
+      <li v-for="(item, key) of data" :key="key" v-if="key < 1">
         <div>{{item.author}}</div>
         <div>{{item.comment}}</div>
         <div>{{item.data}}</div>
@@ -12,8 +12,10 @@
     <input type="button" value="点击" @click="fetchData()">
     <button @click="goBack">后腿</button>
     <input type="button" value="点击" @click="goA()">
+    <input type="button" value="点击" @click="goB()">
     <transition name="el-fade-in">
       <router-view ></router-view>
+      <router-view name="bname"></router-view>
     </transition>
   </div>
 </template>
@@ -21,6 +23,7 @@
 <script>
 import { fetchTest } from 'service/homePage'
 // const userId = 123
+import Bus from '../store/bus.js'
 export default {
   name: 'test',
   data () {
@@ -30,7 +33,6 @@ export default {
   },
   created () {
     this.fetchData()
-    console.log(11, this.$route.query)
   },
   methods: {
     fetchData () {
@@ -43,6 +45,11 @@ export default {
     },
     goA () {
       this.$router.push({name: 'a'})
+      Bus.$emit('selected', '我要传给兄弟组件们，你收到没有')
+      console.log(Bus)
+    },
+    goB () {
+      this.$router.push({name: 'b'})
     }
   }
 

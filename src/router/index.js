@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+import Vb from '../components/B.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -36,7 +37,10 @@ export default new Router({
       },
       {
         path: 'b',
-        redirect: {name: 'a'}
+        name: 'b',
+        components: {
+          bname: Vb
+        }
       }]
     },
     {
